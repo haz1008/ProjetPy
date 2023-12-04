@@ -3,7 +3,7 @@ import compare
 os.system
 
 liste_VCF=[]
-def parcours (repertoire):  #repertoire: stocke le chemin donné en argument ds l'etape 1
+def parcours (repertoire): 
     #print("Je suis dans " +repertoire)
     
     list_rep=os.listdir(repertoire)
@@ -35,15 +35,17 @@ for path_file in liste_VCF:
         P15[sous_dico]=compare.lect_VCF(path_file) #fct qui rend un dico
         #la clef de P15 sous_dico: prend comme valeur un dico
         liste_v1_P15=compare.dupl_v1(P15)
+        print(liste_v1_P15)
         liste_v2_P15=compare.dupl_var(P15)
-        print(len(liste_v1_P15))
+        
         print(liste_v2_P15)
 
     if sous_dico.startswith("P30"):
         P30[sous_dico]=compare.lect_VCF(path_file)
         liste_v1_P30=compare.dupl_v1(P30)
+        print(liste_v1_P30)
         liste_v2_P30=compare.dupl_var(P30)
-
+        print(liste_v2_P30)
 #print(P15)
 #print(P30)
 print("Version 1:  Le nombre de variants dupliqués dans l'échantillon P15: " + str(len(liste_v1_P15)))

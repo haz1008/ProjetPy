@@ -1,12 +1,13 @@
 import sys
 import re
-
+import sys
+import re 
 #Version 1:
 def lect_VCF(file): 
     dico={}
-    print("Processing file: "+file) 
+    print("Processing file: "+file)
     
-    with open(file, 'r') as fichier:  
+    with open(file, 'r') as fichier:
         for line in fichier :
             if not line.startswith('#'):
                 info=line.strip().split("\t")  #transforme chaque ligne du fichier VCF en une liste
@@ -20,9 +21,9 @@ def lect_VCF(file):
                 valeur=[sequence, svlen] #stockage temporaire des seq avec leurs svlen ds une liste
                 if position in dico:  #Si position (clef de dico) existe deja dans dico 
                     #print("La position: "+position + " existe déjà")
-                    if dico[position][1] < svlen:  # et Si svlen de la sequence actuelle (svlen) est inf à celle déjà stocké ds dico sur cette meme position
-                        print("Le variant le plus long de la position "+position + " est de " +dico[position][1]+  " et sa séquence est: "+dico[position][0]) #On laisse la seq la plus longue
-                        #print("TEST 1")
+                    if dico[position][1] < svlen:  # Si svlen de la sequence actuelle (svlen) est sup à celle déjà stocké ds dico sur cette meme position
+                        dico[position]=valeur
+                        #print("valeur")
                         
                 else:
                     #print("La position "+position +  " doit etre ajoutée")
@@ -30,8 +31,6 @@ def lect_VCF(file):
 
     for position in dico: #pour enlever svlen du dico
         dico[position]=dico[position][0] #on ecrase [seq,svlen] par la valeur à la position 0: seq
-        #dico[position].pop([1])?
-    #print(dico) ?
     return dico
 
 def dupl_v1(dico_ech):
@@ -44,7 +43,10 @@ def dupl_v1(dico_ech):
             for pos1,seq1 in dico1.items():
                 for pos2,seq2 in dico2.items():
                     if seq1==seq2 and pos1==pos2:
-                        liste_1.append(seq1)
+                        if (seq1=="<DEL>" or seq1=="<INS>" or seq1=="<DUP>") and (seq2=="<DEL>" or seq2=="<INS>" or seq2=="<DUP>"): #J'ai pas les séquences des ins et des del donc je eux pas les comparer
+                            print("Impossible de comparer.")
+                        else:
+                            liste_1.append(seq1)
     return liste_1
 
 
@@ -65,7 +67,10 @@ def dupl_var(dico_echan): #prend le nom du dico externe comme argument (P15 ou P
             #print(dico_rep2)
             for pos1, seq1 in dico_rep1.items():
                 for pos2, seq2 in dico_rep2.items(): #iterations sur les clefs et valeurs de chacun des sous-dico
-                    if seq1==seq2 and (int(pos1)-10 <= int(pos2) <= int(pos1) +10):
-                        liste_var.append(seq1)
+                        if seq1==seq2 and (int(pos1)-10 <= int(pos2) <= int(pos1) +10):
+                            if (seq1=="<DEL>" or seq1=="<INS>" or seq1=="<DUP>") and (seq2=="<DEL>" or seq2=="<INS>" or seq2=="<DUP>"): 
+                                print("Impossible de comparer.")
+                            else:
+                                liste_var.append(seq1)
     #print("TEST3")
     return liste_var
