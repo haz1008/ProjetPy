@@ -19,4 +19,4 @@ fi
 
 repertoire=$1
 
-python3 parcourir.py $repertoire
+python3 parcourir.py $repertoire 

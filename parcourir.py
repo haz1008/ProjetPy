@@ -24,7 +24,7 @@ def parcours (repertoire):
 parcours(sys.argv[1]) #etape 1: appel de la fct parcours
 #print(liste_VCF)
 
-P15={}
+P15={} #creer une boucle qui initialise un dico n'importe son nom 
 P30={}
 
 for path_file in liste_VCF:
@@ -35,7 +35,7 @@ for path_file in liste_VCF:
         P15[sous_dico]=compare.lect_VCF(path_file) #fct qui rend un dico
         #la clef de P15 sous_dico: prend comme valeur un dico
         liste_v1_P15=compare.dupl_v1(P15)
-        print(liste_v1_P15)
+        print(liste_v1_P15) #preciser entre quel rep
         liste_v2_P15=compare.dupl_var(P15)
         
         print(liste_v2_P15)
@@ -48,7 +48,7 @@ for path_file in liste_VCF:
         print(liste_v2_P30)
 #print(P15)
 #print(P30)
-print("Version 1:  Le nombre de variants dupliqués dans l'échantillon P15: " + str(len(liste_v1_P15)))
+print("Version 1:  Le nombre de variants dupliqués dans l'échantillon P15: " + str(len(liste_v1_P15))) 
 print("Version 1:  Le nombre de variants dupliqués dans l'échantillon P30: " + str(len(liste_v1_P30)))
 
 print("Version 2: Le nombre de variants dupliqués dans l'échantillon P15: " + str(len(liste_v2_P15)))

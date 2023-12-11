@@ -35,14 +35,15 @@ def lect_VCF(file):
 
 def dupl_v1(dico_ech):
     liste_1=[]
-    liste_rep=list(dico_ech.keys())
+    liste_rep=list(dico_ech.keys()) #crée une liste des clefs du dico externe (=> P15-1, P15-2, P15-3)
+    pdb=0
     for i in range(len(liste_rep)):
         for j in range(i+1, len(liste_rep)):
             dico1=dico_ech[liste_rep[i]]
             dico2=dico_ech[liste_rep[j]]
             for pos1,seq1 in dico1.items():
-                for pos2,seq2 in dico2.items():
-                    if seq1==seq2 and pos1==pos2:
+                for pos2,seq2 in dico2.items(): #del et dup comparer que la position
+                    if seq1==seq2 and (int(pos1)-pdb <= int(pos2) <= int(pos1) +pdb):
                         if (seq1=="<DEL>" or seq1=="<INS>" or seq1=="<DUP>") and (seq2=="<DEL>" or seq2=="<INS>" or seq2=="<DUP>"): #J'ai pas les séquences des ins et des del donc je eux pas les comparer
                             print("Impossible de comparer.")
                         else:
@@ -51,26 +52,6 @@ def dupl_v1(dico_ech):
 
 
 def dupl_var(dico_echan): #prend le nom du dico externe comme argument (P15 ou P30)
-    liste_var=[]
-    liste_replicats=list(dico_echan.keys()) #crée une liste des clefs du dico externe (=> P15-1, P15-2, P15-3)
-    #print(liste_replicats)
-
-    #Pour comparer les dico 2 à 2:
-    for i in range(len(liste_replicats)): #iteration sur tous les indices des réplicats dans la liste
-    #i représente l'indice du premier réplicat de la paire à comparer (ex:i=0 => P15-1)
-        for j in range(i+1, len(liste_replicats)): #iteration sur tous les indices des rép suivants (i+1)
-    #sans cette boucle, chaque paire de rép va etre répetée 2 fois.
-            dico_rep1=dico_echan[liste_replicats[i]]
-            #print(dico_rep1)
-            dico_rep2=dico_echan[liste_replicats[j]] #extraction et stockage temporaire des données de chacun des sous_dicos de la paire actuelle, pour pouvoir les comparer
-    #dico_echan est la source de ces données et la liste_replicats fournit les clefs (sous_dico) pour acceder à ces données
-            #print(dico_rep2)
-            for pos1, seq1 in dico_rep1.items():
-                for pos2, seq2 in dico_rep2.items(): #iterations sur les clefs et valeurs de chacun des sous-dico
-                        if seq1==seq2 and (int(pos1)-10 <= int(pos2) <= int(pos1) +10):
-                            if (seq1=="<DEL>" or seq1=="<INS>" or seq1=="<DUP>") and (seq2=="<DEL>" or seq2=="<INS>" or seq2=="<DUP>"): 
-                                print("Impossible de comparer.")
-                            else:
-                                liste_var.append(seq1)
-    #print("TEST3")
+    pdb=10
+    liste_var=dupl_v1(dico_ech)
     return liste_var
